@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("Welcome To Basic Calculator");
@@ -21,55 +22,24 @@ public class Main {
         System.out.println("Please select an option");
         String answer = scanner.next();
 
-        if (answer.equalsIgnoreCase(("A") {
-        float sum = firstNumber + secondNumber;
-        System.out.printf("%.2f  %.2f = %.2f", firstNumber, secondNumber, sum);
-    }   if (answer.equalsIgnoreCase(("S") {
-        float subtract = firstNumber - secondNumber;
-        System.out.printf("%.2f - %.2f = %.2f", firstNumber, secondNumber, subtract);
-    }  if (answer.equalsIgnoreCase(("M") {
-        float multiply = firstNumber * secondNumber;
-        System.out.printf("%.2f * %.2f = %.2f", firstNumber, secondNumber, multiply);
-}    if (answer.equalsIgnoreCase(("D"){
-        System.out.printf("%.2f / %.2f = %.2f", firstNumber, secondNumber , divide);
-} if{
-System.out.println("not an option");
-
+        if (answer.equalsIgnoreCase("A")) {
+            float sum = firstNumber + secondNumber;
+            System.out.printf("%.2f + %.2f = %.2f", firstNumber, secondNumber, sum);
+        } else if (answer.equalsIgnoreCase("S")) {
+            float subtract = firstNumber - secondNumber;
+            System.out.printf("%.2f - %.2f = %.2f", firstNumber, secondNumber, subtract);
+        } else if (answer.equalsIgnoreCase("M")) {
+            float multiply = firstNumber * secondNumber;
+            System.out.printf("%.2f * %.2f = %.2f", firstNumber, secondNumber, multiply);
+        } else if (answer.equalsIgnoreCase("D")) {
+            if (secondNumber != 0) {
+                float divide = firstNumber / secondNumber;
+                System.out.printf("%.2f / %.2f = %.2f", firstNumber, secondNumber, divide);
+            } else {
+                System.out.println("Cannot divide by zero.");
+            }
+        } else {
+            System.out.println("Not an option");
         }
-
-
+    }
 }
-
-
-
-      }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
