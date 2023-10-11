@@ -11,7 +11,7 @@ public class Main {
 
         System.out.print("What is your annual interest rate?");
         double annualInterest = scanner.nextDouble();
-        double dailyRate = annualInterest / 365 /100;
+        double dailyRate = annualInterest / 365 / 100;
         int compounds = 365;
 
         System.out.print("How many years would you like to invest for?");
