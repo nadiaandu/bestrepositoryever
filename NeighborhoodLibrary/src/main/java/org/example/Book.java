@@ -2,6 +2,13 @@ package org.example;
 
 public class Book {
 
+    public int bookId;
+    public String bookIsbn;
+    public String bookTitle;
+    public boolean isCheckedOut;
+    public String checkedOutTo;
+
+
     public Book(int bookId, String bookIsbn, String bookTitle, boolean isCheckedOut, String checkedOutTo) {
         this.bookId = bookId;
         this.bookIsbn = bookIsbn;
@@ -9,12 +16,6 @@ public class Book {
         this.isCheckedOut = isCheckedOut;
         this.checkedOutTo = checkedOutTo;
     }
-
-    private int bookId;
-    private String bookIsbn;
-    private String bookTitle;
-    private boolean isCheckedOut;
-    private String checkedOutTo;
 
     public int getBookId() {
         return bookId;

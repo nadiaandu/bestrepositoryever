@@ -30,64 +30,118 @@ public class Main {
         bookArray[19] = new Book(20, "98756", "Legends of the crystal key", false, "");
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose option 1,2,3: ");
-        System.out.println("1- Show available books");
-        System.out.println("2- Show checked out books");
-        System.out.println("3- Exit");
-
 
         while (true) {
-            System.out.println("What do you want to do?");
-            System.out.println("1 - show available books");
-            System.out.println("2 - show checked out books");
-            System.out.println("3 - Exit closes out the application");
-            System.out.println("Enter a command number: ");
+            System.out.println("Welcome to The Neighborhood Library Home Screen!");
+            System.out.println("Please select an option:");
+            System.out.println("1- Show available books.");
+            System.out.println("2- Show checked out books.");
+            System.out.println("3- Exit");
+            int userSelection = scanner.nextInt();
 
-            int command = scanner.nextInt();
+            switch (userSelection) {
+                case 1:
+                    displayAvailableBooks(bookArray); // Pass the bookArray to the method
+                    break;
+                case 2:
+                    displayCheckedOutBooks(bookArray); // Pass the bookArray to the method
+                    break;
+                case 3:
+                    System.out.println("Thank you, have a great day!");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("I'm sorry, that is not a valid response. Please choose either 1, 2, or 3.");
+                    break;
+            }
+        }
+    }
+
+    public static void displayAvailableBooks(Book[] books) { // Pass the bookArray as a parameter
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            boolean availBooks = false;
+
+            for (Book book : books) { // Iterate over the bookArray
+                if (book != null && !book.isCheckedOut()) { // Check for null and availability
+                    System.out.println("ID: " + book.getBookId() + ", Title: " + book.getBookTitle());
+                    availBooks = true;
+                }
+            }
+
+            if (!availBooks) {
+                System.out.println("Sorry, no books are available at the moment.");
+                break;
+            }
+
+            System.out.println("Please make your selection by typing the title of the book desired: ");
+            System.out.println("Or enter 0 to go back to The Neighborhood Library Home Screen.");
+            String titleOfBook = scanner.nextLine();
+
+            if (titleOfBook.equals("0")) {
+                break;
+            }
+
+            boolean bookFound = false;
+            for (Book book : books) {
+                if (book != null && book.getBookTitle().equalsIgnoreCase(titleOfBook) && !book.isCheckedOut()) {
+                    System.out.println("If you would like to check out this book, please enter your name:");
+                    String readersName = scanner.nextLine();
+
+                    book.checkOut(readersName);
+                    System.out.println("Thank you " + readersName + ", you have checked out your book.");
+                    bookFound = true;
+                    break;
+                }
+            }
+
+            if (!bookFound) {
+                System.out.println("Book not found.");
+            }
+        }
+    }
+
+    public static void displayCheckedOutBooks(Book[] books) { // Pass the bookArray as a parameter
+        Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
+
+        while (!exit) {
+            boolean checkedOutBooks = false;
+
+            for (Book book : books) { // Iterate over the bookArray
+                if (book != null && book.isCheckedOut()) { // Check for null and checked out status
+                    System.out.println("ID: " + book.getBookId() + ", Title: " + book.getBookTitle() + ", is checked out by: " + book.getCheckedOutTo());
+                    checkedOutBooks = true;
+                }
+            }
+
+            if (!checkedOutBooks) {
+                System.out.println("No books have been checked out.");
+                break;
+            }
+
+            System.out.println("If you'd like to check in a book, please enter the book ID. Or enter 0 to return back to The Neighborhood Library Home Screen");
+            int bookID = scanner.nextInt();
             scanner.nextLine();
 
+            if (bookID == 0) {
+                exit = true;
+            } else {
+                boolean bookFound = false;
+                for (Book book : books) {
+                    if (book != null && book.getBookId() == bookID && book.isCheckedOut()) { // Check for null and checked out status
+                        book.checkIn();
+                        System.out.println("Thank you, book has been checked in.");
+                        bookFound = true;
+                        break;
+                    }
+                }
 
-
-        switch (command) {
-
-
-            case 1:
-                showAvailableBooks();
-                System.out.println("What do you want to do?");
-                System.out.println(" 1 - Select a book to check out");
-                System.out.println(" 2 - Exit - goes back to home screen");
-                System.out.println("Enter a command number");
-                break;
-
-            case 2:
-                showCheckedOutBooks();
-                break;
-
-            case 3:
-                return;
-
-            default:
-                System.out.println("Enter a number from 1-3");
-
+                if (!bookFound) {
+                    System.out.println("No book found.");
+                }
+            }
         }
-        }
-
-
-    }
-
-    public static void showAvailableBooks() {
-        Scanner scanner = new Scanner(System.in);
-        boolean isCheckedOut = false;
-
-    }
-
-    public static void showCheckedOutBooks() {
-        Scanner scanner = new Scanner(System.in);
-        boolean
-
-
-
-
-
     }
 }
