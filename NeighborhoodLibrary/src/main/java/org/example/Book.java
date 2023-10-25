@@ -1,7 +1,8 @@
 package org.example;
 
 public class Book {
-
+    //Very very small quibble, but you don't need the word book in front of some of these properties
+    //since the class name is book
     public int bookId;
     public String bookIsbn;
     public String bookTitle;
@@ -15,6 +16,16 @@ public class Book {
         this.bookTitle = bookTitle;
         this.isCheckedOut = isCheckedOut;
         this.checkedOutTo = checkedOutTo;
+    }
+
+    //You could do the constructor like this for less typing since you know in the beginning it won't be checked out
+    //and it's not checked out to anyone
+    public Book(int id, String isbn, String title) {
+        this.bookId = id;
+        this.bookIsbn = isbn;
+        this.bookTitle = title;
+        this.isCheckedOut = false;
+        this.checkedOutTo = "";
     }
 
     public int getBookId() {
@@ -57,12 +68,17 @@ public class Book {
         this.checkedOutTo = checkedOutTo;
     }
 
-    public String checkOut(String name) {
+    //There was a bug here. Compare my changes to the original code and you'll see why the checked out books
+    //never showed in the checked out list
+    public void checkOut(String name) {
         if (isCheckedOut == true){
-            checkedOutTo = name;
-
+            System.out.println("That book is already checked out");
         }
-        return checkedOutTo;
+        else{
+            this.isCheckedOut = true;
+            this.checkedOutTo = name;
+        }
+
     }
 
     public String checkIn(){
