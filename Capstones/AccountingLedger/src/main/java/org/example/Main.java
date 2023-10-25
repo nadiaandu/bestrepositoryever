@@ -15,7 +15,7 @@ import java.io.*;
 public class Main {
 
     // home screen display options
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         // try catch matches unhandled exception given by file writer and file input stream
         try {
@@ -38,7 +38,7 @@ public class Main {
 
             while (scanner.hasNextLine()) {
                 input = scanner.hasNextLine();
-                System.out.println();
+                String line = scanner.nextLine();
 
                 fileInputStream.close();
             }
@@ -52,6 +52,8 @@ public class Main {
         }
         Scanner scanner = new Scanner(System.in);
         double accountBalance = 100.0;
+        List<Transaction> ledger = new ArrayList<>();
+
 
         while (true) {
             System.out.println("Home Screen Options:");
@@ -76,6 +78,11 @@ public class Main {
                         accountBalance += depositAmount;
                         System.out.println("Deposit of $" + depositAmount + " added. Your new balance is: $" + accountBalance);
                     }
+                    Transaction newTransaction = new Transaction(Transaction.getDate(),Transaction.getTime(),Transaction.getVendor(),Transaction.getDescription(), Transaction.getAmount());
+                    saveTransactions((List<Transaction>) newTransaction);
+                    System.out.println("Deposit successfully added. \n");
+
+
                     break;
 
                 case "P":
@@ -131,7 +138,7 @@ public class Main {
             case "A":
                 System.out.println("All entries:");
                 for (Transaction entry : ledger) {
-                    System.out.println(entry.getType() + " - Amount: $" + entry.getAmount() + " - Description:" + entry.getDescription());
+                    System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description:" + entry.getDescription());
                 }
                 break;
 
@@ -139,7 +146,7 @@ public class Main {
                 System.out.println("Your Deposits:");
                 for (Transaction entry : ledger) {
                     if (entry.getAmount() > 0) {
-                        System.out.println(entry.getType() + " - Amount: $" + entry.getAmount() + " - Description:" + entry.getDescription());
+                        System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description:" + entry.getDescription());
                     }
                 }
                 break;
@@ -148,7 +155,7 @@ public class Main {
                 System.out.println("Your payments:");
                 for (Transaction entry : ledger) {
                     if (entry.getAmount() < 0) {
-                        System.out.println(entry.getType() + " - Amount: $" + entry.getAmount() + " - Description:" + entry.getDescription());
+                        System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description:" + entry.getDescription());
                     }
                 }
                 break;
@@ -335,7 +342,7 @@ public class Main {
 
         for (Transaction entry : ledger) {
             if (entry.getVendor().equalsIgnoreCase(vendorName)) {
-                System.out.println("Type: " + entry.getType() + ", Amount: $" + entry.getAmount() + ", Description: " + entry.getDescription());
+                System.out.println("Type: " + entry.getTime() + ", Amount: $" + entry.getAmount() + ", Description: " + entry.getDescription());
                 found = true;
             }
         }
@@ -344,5 +351,34 @@ public class Main {
         }
     }
 
+    private static void saveTransactions(List<Transaction> ledger) throws IOException {
+        try {
+            File file = new File("src/main/resources/transactions.csv");
 
-}
+            boolean fileExists = file.exists();
+
+            if (!fileExists) {
+                FileWriter newTransactionWriter = new FileWriter("src/main/resources/transactions.csv");
+                newTransactionWriter.write("Date|Time|Description|Vendor|Amount\n");
+                newTransactionWriter.close();
+            }
+
+
+            FileWriter appendTransactionWriter = new FileWriter("src/main/resources/transactions.csv", true);
+            //pipe delimited
+            appendTransactionWriter.write(
+                    Transaction.getDate() + "|" +
+                            Transaction.getTime() + "|" +
+                            Transaction.getDescription() + "|" +
+                            Transaction.getVendor() + "|" +
+                            Transaction.getAmount() + "\n"
+            );
+            appendTransactionWriter.close();
+
+        }catch(IOException ex){
+                System.out.println("Could not find that path!");
+            }
+
+        }
+    }
+

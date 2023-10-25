@@ -3,14 +3,14 @@ package org.example;
 public class Transaction {
 
     private String date;
-    private String type;
-    private String description;
+    private static String time;
+    private static String description;
     private String vendor;
-    private double amount;
+    private static double amount;
 
-    public Transaction(String date, String type, String description, String vendor, double amount) {
+    public Transaction(String date, String time, String description, String vendor, double amount) {
         this.date = date;
-        this.type = type;
+        this.time = time;
         this.description = description;
         this.vendor = vendor;
         this.amount = amount;
@@ -20,15 +20,15 @@ public class Transaction {
         this.date = date;
     }
 
-    public String getType() {
-        return type;
+    public static String getTime() {
+        return time;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public String getDescription() {
+    public static String getDescription() {
         return description;
     }
 
@@ -40,11 +40,19 @@ public class Transaction {
         this.vendor = vendor;
     }
 
-    public double getAmount() {
+    public static double getAmount() {
         return amount;
     }
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public static String getDate() {
+        return null;
+    }
+
+    public static String getVendor() {
+        return null;
     }
 }
