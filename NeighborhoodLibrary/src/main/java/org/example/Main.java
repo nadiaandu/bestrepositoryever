@@ -2,13 +2,21 @@ package org.example;
 
 import java.util.Scanner;
 
+/*
+Overall this is a great start!
+The checkout does not work because you forgot to set isCheckedOut to true to change the status
+of the book. I tried checking out a few books but they never showed up in the menu because the boolean never got set
+Also it might be cool to use numbers instead of makin the user type out a long book name.
+ */
 public class Main {
 
     public static void main(String[] args) {
 
         Book[] bookArray = new Book[20];
 
-        bookArray[0] = new Book(1, "12345", "Whispers of the past", false, "");
+        //See with the other constructor you can just do this since you know when you first create the book
+        //it's not checked out to anybody and isCheckedOut starts off as false
+        bookArray[0] = new Book(1, "12345", "Whispers of the past");
         bookArray[1] = new Book(2, "12346", "The lost city chronicles", false, "");
         bookArray[2] = new Book(3, "12347", "Eternal echoes", false, "");
         bookArray[3] = new Book(4, "12348", "Mystery at midnight manor", false, "");
