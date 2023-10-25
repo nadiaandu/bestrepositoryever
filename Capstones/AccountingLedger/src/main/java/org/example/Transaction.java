@@ -2,6 +2,7 @@ package org.example;
 
 public class Transaction {
 
+    public String getDate;
     private String type;
 
     private double amount;
@@ -36,5 +37,12 @@ public class Transaction {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    {
+    }
+
+    public String getDate() {
+        return null;
     }
 }
