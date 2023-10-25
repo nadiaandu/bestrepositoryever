@@ -1,9 +1,11 @@
 package org.example;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
+
 
 public class Main {
 
@@ -166,8 +168,13 @@ public class Main {
                     break;
 
                 case "4":
+                    double previousYearDeposit = calculatePreviousYear(ledger);
+                    System.out.println("Previous year deposit: $" + previousYearDeposit);
+                    break;
 
                 case "5":
+                    searchByVendor(ledger);
+                    break;
 
                 case "0":
                     return;
@@ -259,4 +266,46 @@ public class Main {
         }
         return yearToDateDeposit;
     }
+
+    // created a method to calculate total deposits made during previous year
+    private static double calculatePreviousYear(List<Transaction> ledger) {
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+
+        double previousYearDeposit = 0.0;
+
+        for (Transaction entry : ledger) {
+            Calendar entryDate = Calendar.getInstance();
+            entryDate.setTimeInMillis(Long.parseLong(entry.getDate()));
+
+            int entryYear = entryDate.get(Calendar.YEAR);
+
+            // if statement necessary to check if a transaction is a deposit from the previous year
+            if (entryYear == currentYear - 1 && entry.getAmount() > 0) {
+                previousYearDeposit += entry.getAmount();
+            }
+        }
+        return previousYearDeposit;
+    }
+
+    // created a method to search transactions through vendor name
+    private static void searchByVendor(List<Transaction> ledger) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the vendor name to search by: ");
+        String vendorName = scanner.nextLine();
+        boolean found = false;
+        System.out.println("Transactions by vendor: " + vendorName);
+
+        for (Transaction entry : ledger) {
+            if (entry.getVendor().equalsIgnoreCase(vendorName)) {
+                System.out.println("Type: " + entry.getType() + ", Amount: $" + entry.getAmount() + ", Description: " + entry.getDescription());
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No transactions found for vendor: " + vendorName);
+        }
+    }
+
+
 }

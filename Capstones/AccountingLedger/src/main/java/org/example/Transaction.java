@@ -43,6 +43,11 @@ public class Transaction {
     }
 
     public String getDate() {
-        return null;
+        return getDate;
+    }
+
+    public String getVendor() {
+
+        return getVendor();
     }
 }
