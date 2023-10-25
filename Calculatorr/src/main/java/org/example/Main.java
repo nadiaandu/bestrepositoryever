@@ -6,12 +6,12 @@ import java.util.Scanner;
 public class Main {
     // when
     public static void main(String[] args) {
-        System.out.println("What is the numerator?");
+        System.out.println("What is the first number?");
         Scanner scanner = new Scanner(System.in);
 
         try{
             double userInput1 = scanner.nextDouble();
-            System.out.println("What is the denominator?");
+            System.out.println("What is the second number?");
             double userInput2 = scanner.nextDouble();
             double quotient = userInput1/userInput2;
             System.out.println("The result is " + quotient);
