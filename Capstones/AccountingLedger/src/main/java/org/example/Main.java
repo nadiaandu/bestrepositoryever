@@ -1,10 +1,15 @@
 package org.example;
 
 import javax.swing.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
+import java.io.*;
 
 
 public class Main {
@@ -12,9 +17,42 @@ public class Main {
     // home screen display options
     public static void main(String[] args) {
 
+        // try catch matches unhandled exception given by file writer and file input stream
+        try {
+            File file = new File("src/main/resources/transactions.csv");
+
+            boolean fileExists = file.exists();
+
+            if (!fileExists) {
+                FileWriter newTransactionWriter = new FileWriter("src/main/resources/transactions.csv");
+                newTransactionWriter.write("Date|Time|Description|Vendor|Amount\n");
+                newTransactionWriter.close();
+            }
+        } catch (IOException ex) {
+            System.out.println("Could not find that path!");
+        }
+        try {
+            FileInputStream fileInputStream = new FileInputStream("src/main/resources/transactions.csv");
+            Scanner scanner = new Scanner(fileInputStream);
+            boolean input;
+
+            while (scanner.hasNextLine()) {
+                input = scanner.hasNextLine();
+                System.out.println();
+
+                fileInputStream.close();
+            }
+
+        } catch (FileNotFoundException ex) {
+            System.out.println("Could not find that file.");
+
+        } catch (IOException ex) {
+            System.out.println("Error occurred reading the file");
+
+        }
         Scanner scanner = new Scanner(System.in);
         double accountBalance = 100.0;
-        List<Transaction> ledger = new ArrayList<>();
+        List<Main> transactionList = readTransactionsFromCSV();
 
         while (true) {
             System.out.println("Home Screen Options:");
