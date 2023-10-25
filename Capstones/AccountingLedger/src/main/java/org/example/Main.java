@@ -52,7 +52,6 @@ public class Main {
         }
         Scanner scanner = new Scanner(System.in);
         double accountBalance = 100.0;
-        List<Main> transactionList = readTransactionsFromCSV();
 
         while (true) {
             System.out.println("Home Screen Options:");
