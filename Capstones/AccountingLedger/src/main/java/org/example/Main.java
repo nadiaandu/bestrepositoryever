@@ -1,6 +1,7 @@
 package org.example;
 
-import javax.swing.*;
+// import statements I used throughout
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -11,18 +12,19 @@ import java.util.List;
 import java.util.Scanner;
 import java.io.*;
 
-
 public class Main {
 
-    // home screen display options
+    // starting with my file writer and try + catch
     public static void main(String[] args) throws IOException {
 
         // try catch matches unhandled exception given by file writer and file input stream
         try {
+            // creating a new file
             File file = new File("src/main/resources/transactions.csv");
 
             boolean fileExists = file.exists();
 
+            // if file does NOT exist it will create a "newTransactionWriter"  and adds header
             if (!fileExists) {
                 FileWriter newTransactionWriter = new FileWriter("src/main/resources/transactions.csv");
                 newTransactionWriter.write("Date|Time|Description|Vendor|Amount\n");
@@ -32,6 +34,7 @@ public class Main {
             System.out.println("Could not find that path!");
         }
         try {
+            // opens the file to read usign fis and scanner then loops through to go line by line
             FileInputStream fileInputStream = new FileInputStream("src/main/resources/transactions.csv");
             Scanner scanner = new Scanner(fileInputStream);
             boolean input;
@@ -39,21 +42,26 @@ public class Main {
             while (scanner.hasNextLine()) {
                 input = scanner.hasNextLine();
                 String line = scanner.nextLine();
-
                 fileInputStream.close();
             }
 
         } catch (FileNotFoundException ex) {
+            // if file not found it prints:
             System.out.println("Could not find that file.");
 
         } catch (IOException ex) {
+            // if an issue with reading file occurs:
             System.out.println("Error occurred reading the file");
-
         }
+
+        // displaying home screen options to user
+        // created accountBalance to keep track of $ and array list called 'ledger' to store transactions
+
         Scanner scanner = new Scanner(System.in);
-        double accountBalance = 100.0;
+        double accountBalance = 0.0;
         List<Transaction> ledger = new ArrayList<>();
 
+        // loop so options keep coming up until user presses X for exit
 
         while (true) {
             System.out.println("Home Screen Options:");
@@ -63,8 +71,11 @@ public class Main {
             System.out.println("X) Exit");
             System.out.print("Please enter your choice: ");
 
+            // converting user's input to uppercase very helpful
+            // initializing variable choice to store option user chooses
             String choice = scanner.nextLine().toUpperCase();
 
+            // switch statement to determine course of action based on user choice
             switch (choice) {
                 case "D":
                     System.out.println("You selected 'Add Deposit'.");
@@ -75,37 +86,73 @@ public class Main {
                     if (depositAmount < 0) {
                         System.out.println("Invalid deposit amount. Enter a positive amount.");
                     } else {
+                        // if user enters a positive number, it will store to ledger and ask
+                        // the following questions and store that info as well:
+
                         accountBalance += depositAmount;
                         System.out.println("Deposit of $" + depositAmount + " added. Your new balance is: $" + accountBalance);
+                        System.out.print("Enter the date (e.g., 2023-10-25): ");
+                        String date = scanner.nextLine();
+                        System.out.print("Enter the time (e.g., 14:30): ");
+                        String time = scanner.nextLine();
+                        System.out.print("Enter the description: ");
+                        String description = scanner.nextLine();
+                        System.out.print("Enter the vendor: ");
+                        String vendor = scanner.nextLine();
+
+                        // Create a new Transaction object and add it to the ledger
+                        Transaction newTransaction = new Transaction(date, time, description, vendor, depositAmount);
+                        ledger.add(newTransaction);
+
+                        // Save the transaction to the transactions csv file
+                        saveTransactions(ledger);
+                        System.out.println("Deposit successfully added. \n");
                     }
-                    Transaction newTransaction = new Transaction(Transaction.getDate(),Transaction.getTime(),Transaction.getVendor(),Transaction.getDescription(), Transaction.getAmount());
-                    saveTransactions((List<Transaction>) newTransaction);
-                    System.out.println("Deposit successfully added. \n");
-
-
                     break;
 
                 case "P":
                     System.out.println("You selected 'Make Payment (Debit)'.");
                     System.out.println("Enter your payment amount");
+
+                    // created paymentAmount to store amount provided by the user
                     double paymentAmount = scanner.nextDouble();
                     scanner.nextLine();
 
                     if (paymentAmount < 0) {
                         System.out.println("Invalid payment amount. Enter a positive amount");
+
+                        // my "something interesting" is that if the amount is larger than the account balance,
+                        // we let the user know they have insufficient funds
+
                     } else if (paymentAmount > accountBalance) {
                         System.out.println("Insufficient funds. Your current balance is: $" + accountBalance);
+                        // if the amount is NOT larger than the account balance, it will subtract from account balance
+                        // then we prompt the user to obtain the additional details
                     } else {
                         accountBalance -= paymentAmount;
                         System.out.println("Payment of $" + paymentAmount + " made. Your new balance is: $" + accountBalance);
-                    }
+                        System.out.print("Enter the date (e.g., 2023-10-25): ");
+                        String date = scanner.nextLine();
+                        System.out.print("Enter the time (e.g., 14:30): ");
+                        String time = scanner.nextLine();
+                        System.out.print("Enter the description: ");
+                        String description = scanner.nextLine();
+                        System.out.print("Enter the vendor: ");
+                        String vendor = scanner.nextLine();
 
+                        // creating a transaction object and adding to ledger
+                        Transaction newTransaction = new Transaction(date, time, description, vendor, paymentAmount);
+                        ledger.add(newTransaction);
+
+                        // saving transactions to the file
+                        saveTransactions(ledger);
+                        System.out.println("Deposit successfully added. \n");
+                    }
                     break;
 
                 case "L":
                     System.out.println("You selected 'Ledger Screen'.");
                     displayLedger(ledger);
-
                     break;
 
                 case "X":
@@ -120,63 +167,62 @@ public class Main {
         }
     }
 
-    // method created to give user ledger options
+    // method created to give user ledger options when choice "L" is selected
     private static void displayLedger(List<Transaction> ledger) {
-        System.out.println("Your ledger options:");
-        System.out.println("A) All - display all entries");
-        System.out.println("D) Deposits");
-        System.out.println("P) Payments");
-        System.out.println("R) Reports");
-        System.out.println("H) Return to Home");
-        System.out.println("Please select from options given: ");
+            System.out.println("Your ledger options:");
+            System.out.println("A) All - display all entries");
+            System.out.println("D) Deposits");
+            System.out.println("P) Payments");
+            System.out.println("R) Reports");
+            System.out.println("H) Return to Home");
+            System.out.println("Please select from options given: ");
 
-        Scanner scanner = new Scanner(System.in);
-        String selection = scanner.nextLine().toUpperCase();
+            // taking user input and converting to upper case again
+            Scanner scanner = new Scanner(System.in);
+            String selection = scanner.nextLine().toUpperCase();
 
-        switch (selection) {
+            // switch statement for courses of action for each option
+            switch (selection) {
 
-            case "A":
-                System.out.println("All entries:");
-                for (Transaction entry : ledger) {
-                    System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description:" + entry.getDescription());
-                }
-                break;
-
-            case "D":
-                System.out.println("Your Deposits:");
-                for (Transaction entry : ledger) {
-                    if (entry.getAmount() > 0) {
-                        System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description:" + entry.getDescription());
+                case "A":
+                    System.out.println("All entries:");
+                    for (Transaction entry : ledger) {
+                        System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description: " + entry.getDescription() + " - Vendor: " + entry.getVendor() + " - Date: " + entry.getDate());
                     }
-                }
-                break;
+                    break;
 
-            case "P":
-                System.out.println("Your payments:");
-                for (Transaction entry : ledger) {
-                    if (entry.getAmount() < 0) {
-                        System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description:" + entry.getDescription());
+                case "D":
+                    System.out.println("Your Deposits:");
+                    for (Transaction entry : ledger) {
+                        if (entry.getAmount() > 0) {
+                            System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description: " + entry.getDescription() + " - Vendor: " + entry.getVendor() + " - Date: " + entry.getDate());
+                        }
                     }
-                }
-                break;
+                    break;
 
-            case "R":
-                System.out.println("Your reports:");
-                runReports(ledger);
-                break;
+                case "P":
+                    System.out.println("Your payments:");
+                    for (Transaction entry : ledger) {
+                        if (entry.getAmount() < 0) {
+                            System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description: " + entry.getDescription() + " - Vendor: " + entry.getVendor() + " - Date: " + entry.getDate());
+                        }
+                    }
+                    break;
 
-            case "H":
-                System.out.println("You are returning to the home screen.");
-                break;
+                case "R":
+                    System.out.println("Your reports:");
+                    runReports(ledger);
+                    break;
 
-            default:
-                System.out.println("Invalid choice. Try choosing from options provided.");
-                break;
+                case "H":
+                    System.out.println("You are returning to the home screen.");
+                    break;
 
-
+                default:
+                    System.out.println("Invalid choice. Try choosing from options provided.");
+                    break;
+            }
         }
-
-    }
 
     // method created to give user report options
     private static void runReports(List<Transaction> ledger) {
@@ -232,23 +278,32 @@ public class Main {
 
     // created a method to calculate the "Month to Date" deposit in reports
     private static double calculateMonthToDate(List<Transaction> ledger) {
+
+        // using calendar object
         Calendar calendar = Calendar.getInstance();
         int currentYear = calendar.get(Calendar.YEAR);
         int currentMonth = calendar.get(Calendar.MONTH) + 1;
+
+        // new variable to keep track of total deposits made in the current month
         double monthToDateDeposit = 0.0;
 
+        // for loop that reads transaction date and converts it
         for (Transaction entry : ledger) {
             Calendar entryDate = Calendar.getInstance();
+
+            // converts date from "entryDate" to long and sets timestamp
             entryDate.setTimeInMillis(Long.parseLong(entry.getDate()));
+            // retrieving month and year that user enters
+            // add one to the month sine january = 0
 
             int entryYear = entryDate.get(Calendar.YEAR);
             int entryMonth = entryDate.get(Calendar.MONTH) + 1;
 
+            // if the transaction is in the current month and is a deposit, it adds to the total (monthToDateDeposit)
             if (currentYear == entryYear && currentMonth == entryMonth && entry.getAmount() > 0) {
                 monthToDateDeposit += entry.getAmount();
             }
         }
-
         return monthToDateDeposit;
     }
 
@@ -365,20 +420,17 @@ public class Main {
 
 
             FileWriter appendTransactionWriter = new FileWriter("src/main/resources/transactions.csv", true);
-            //pipe delimited
-            appendTransactionWriter.write(
-                    Transaction.getDate() + "|" +
-                            Transaction.getTime() + "|" +
-                            Transaction.getDescription() + "|" +
-                            Transaction.getVendor() + "|" +
-                            Transaction.getAmount() + "\n"
-            );
-            appendTransactionWriter.close();
-
-        }catch(IOException ex){
-                System.out.println("Could not find that path!");
+            // Pipe delimited
+            for (Transaction transaction : ledger) {
+                appendTransactionWriter.write(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription() + "|" + transaction.getVendor() + "|" + transaction.getAmount() + "\n");
             }
 
+            appendTransactionWriter.close();
+
+        } catch (IOException ex) {
+            System.out.println("Could not find that path!");
         }
+
     }
+}
 

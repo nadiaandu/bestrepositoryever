@@ -1,12 +1,11 @@
 package org.example;
 
 public class Transaction {
-
     private String date;
-    private static String time;
-    private static String description;
+    private String time;
+    private String description;
     private String vendor;
-    private static double amount;
+    private double amount;
 
     public Transaction(String date, String time, String description, String vendor, double amount) {
         this.date = date;
@@ -16,43 +15,27 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public Transaction() {
+
     }
 
-    public static String getTime() {
+    public String getDate() {
+        return date;
+    }
+
+    public String getTime() {
         return time;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public static String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getVendor() {
+        return vendor;
     }
 
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
-    }
-
-    public static double getAmount() {
+    public double getAmount() {
         return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public static String getDate() {
-        return null;
-    }
-
-    public static String getVendor() {
-        return null;
     }
 }
