@@ -34,7 +34,7 @@ public class Main {
             System.out.println("Could not find that path!");
         }
         try {
-            // opens the file to read usign fis and scanner then loops through to go line by line
+            // opens the file to read using fis and scanner then loops through to go line by line
             FileInputStream fileInputStream = new FileInputStream("src/main/resources/transactions.csv");
             Scanner scanner = new Scanner(fileInputStream);
             boolean input;
@@ -141,7 +141,7 @@ public class Main {
                         String vendor = scanner.nextLine();
 
                         // creating a transaction object and adding to ledger
-                        Transaction newTransaction = new Transaction(date, time, description, vendor, paymentAmount);
+                        Transaction newTransaction = new Transaction(date, time, description, vendor, -paymentAmount);
                         ledger.add(newTransaction);
 
                         // saving transactions to the file
@@ -169,65 +169,65 @@ public class Main {
 
     // method created to give user ledger options when choice "L" is selected
     private static void displayLedger(List<Transaction> ledger) {
-            System.out.println("Your ledger options:");
-            System.out.println("A) All - display all entries");
-            System.out.println("D) Deposits");
-            System.out.println("P) Payments");
-            System.out.println("R) Reports");
-            System.out.println("H) Return to Home");
-            System.out.println("Please select from options given: ");
+        System.out.println("Your ledger options:");
+        System.out.println("A) All - display all entries");
+        System.out.println("D) Deposits");
+        System.out.println("P) Payments");
+        System.out.println("R) Reports");
+        System.out.println("H) Return to Home");
+        System.out.println("Please select from options given: ");
 
-            // taking user input and converting to upper case again
-            Scanner scanner = new Scanner(System.in);
-            String selection = scanner.nextLine().toUpperCase();
+        // taking user input and converting to upper case again
+        Scanner scanner = new Scanner(System.in);
+        String selection = scanner.nextLine().toUpperCase();
 
-            // switch statement for courses of action for each option
-            switch (selection) {
+        // switch statement for courses of action for each option
+        switch (selection) {
 
-                case "A":
-                    System.out.println("All entries:");
-                    for (Transaction entry : ledger) {
+            case "A":
+                System.out.println("All entries:");
+                for (Transaction entry : ledger) {
+                    System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description: " + entry.getDescription() + " - Vendor: " + entry.getVendor() + " - Date: " + entry.getDate());
+                }
+                break;
+
+            case "D":
+                System.out.println("Your Deposits:");
+                for (Transaction entry : ledger) {
+                    if (entry.getAmount() > 0) {
                         System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description: " + entry.getDescription() + " - Vendor: " + entry.getVendor() + " - Date: " + entry.getDate());
                     }
-                    break;
+                }
+                break;
 
-                case "D":
-                    System.out.println("Your Deposits:");
-                    for (Transaction entry : ledger) {
-                        if (entry.getAmount() > 0) {
-                            System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description: " + entry.getDescription() + " - Vendor: " + entry.getVendor() + " - Date: " + entry.getDate());
-                        }
+            case "P":
+                System.out.println("Your payments:");
+                for (Transaction entry : ledger) {
+                    if (entry.getAmount() < 0) {
+                        System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description: " + entry.getDescription() + " - Vendor: " + entry.getVendor() + " - Date: " + entry.getDate());
                     }
-                    break;
+                }
+                break;
 
-                case "P":
-                    System.out.println("Your payments:");
-                    for (Transaction entry : ledger) {
-                        if (entry.getAmount() < 0) {
-                            System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description: " + entry.getDescription() + " - Vendor: " + entry.getVendor() + " - Date: " + entry.getDate());
-                        }
-                    }
-                    break;
+            case "R":
+                System.out.println("Your reports:");
+                runReports(ledger);
+                break;
 
-                case "R":
-                    System.out.println("Your reports:");
-                    runReports(ledger);
-                    break;
+            case "H":
+                System.out.println("You are returning to the home screen.");
+                break;
 
-                case "H":
-                    System.out.println("You are returning to the home screen.");
-                    break;
-
-                default:
-                    System.out.println("Invalid choice. Try choosing from options provided.");
-                    break;
-            }
+            default:
+                System.out.println("Invalid choice. Try choosing from options provided.");
+                break;
         }
+    }
 
     // method created to give user report options
     private static void runReports(List<Transaction> ledger) {
         Scanner scanner = new Scanner(System.in);
-
+        // loops options to user until they exit
         while (true) {
             System.out.println("Reports Options:");
             System.out.println("1) Month to date");
@@ -238,6 +238,8 @@ public class Main {
             System.out.println("0) Go back to report page");
 
             System.out.println("Please select from provided options: ");
+
+            //stores user entry as "reportChoice"
             String reportChoice = scanner.nextLine();
 
             switch (reportChoice) {
@@ -282,7 +284,7 @@ public class Main {
         // using calendar object
         Calendar calendar = Calendar.getInstance();
         int currentYear = calendar.get(Calendar.YEAR);
-        int currentMonth = calendar.get(Calendar.MONTH) + 1;
+        int currentMonth = calendar.get(Calendar.MONTH);
 
         // new variable to keep track of total deposits made in the current month
         double monthToDateDeposit = 0.0;
@@ -293,9 +295,9 @@ public class Main {
 
             // converts date from "entryDate" to long and sets timestamp
             entryDate.setTimeInMillis(Long.parseLong(entry.getDate()));
-            // retrieving month and year that user enters
-            // add one to the month sine january = 0
 
+            // retrieving month and year that user enters
+            // add one to the month since january = 0
             int entryYear = entryDate.get(Calendar.YEAR);
             int entryMonth = entryDate.get(Calendar.MONTH) + 1;
 
@@ -309,9 +311,10 @@ public class Main {
 
     // created a method to calculate total deposits made in the previous month in reports
     private static double calculatePreviousMonth(List<Transaction> ledger) {
+        // using calendar object
         Calendar calendar = Calendar.getInstance();
         int currentYear = calendar.get(Calendar.YEAR);
-        int currentMonth = calendar.get(Calendar.MONTH);
+        int currentMonth = calendar.get(Calendar.MONTH) + 1;
 
         // calculating the month and year of the previous month
         int previousYear = currentYear;
@@ -327,12 +330,13 @@ public class Main {
 
         double previousMonthDeposit = 0.0;
 
+        // for loop that reads transaction date and converts it
         for (Transaction entry : ledger) {
             Calendar entryDate = Calendar.getInstance();
             entryDate.setTimeInMillis(Long.parseLong(entry.getDate()));
 
             int entryYear = entryDate.get(Calendar.YEAR);
-            int entryMonth = entryDate.get(Calendar.MONTH);
+            int entryMonth = entryDate.get(Calendar.MONTH) + 1;
 
             // adds transaction to calculation if it is a deposit from the same year and month as the previous month
             if (entryYear == previousYear && entryMonth == previousMonth && entry.getAmount() > 0) {
@@ -346,19 +350,25 @@ public class Main {
 
     // created a method to calculate the total deposits made from beginning of current year to current month in reports
     private static double calculateYearToDate(List<Transaction> ledger) {
+        // using calendar object
         Calendar calendar = Calendar.getInstance();
         int currentYear = calendar.get(Calendar.YEAR);
         int currentMonth = calendar.get(Calendar.MONTH);
 
+        // new variable to keep track of total deposits made in the current year
         double yearToDateDeposit = 0.0;
 
+        // for loop that reads transaction date and converts it
         for (Transaction entry : ledger) {
             Calendar entryDate = Calendar.getInstance();
             entryDate.setTimeInMillis(Long.parseLong(entry.getDate()));
 
+            // retrieving month and year that user enters
+            // add one to the month since january = 0
             int entryYear = entryDate.get(Calendar.YEAR);
-            int entryMonth = entryDate.get(Calendar.MONTH);
+            int entryMonth = entryDate.get(Calendar.MONTH) + 1;
 
+            // if the transaction is in the current year and is a deposit, it adds to the total (yearToDateDeposit)
             if (entryYear == currentYear && entryMonth <= currentMonth && entry.getAmount() > 0) {
                 yearToDateDeposit += entry.getAmount();
             }
@@ -368,9 +378,11 @@ public class Main {
 
     // created a method to calculate total deposits made during previous year
     private static double calculatePreviousYear(List<Transaction> ledger) {
+        // calender object
         Calendar calendar = Calendar.getInstance();
         int currentYear = calendar.get(Calendar.YEAR);
 
+        // stores total of deposits for previous year
         double previousYearDeposit = 0.0;
 
         for (Transaction entry : ledger) {
@@ -389,38 +401,64 @@ public class Main {
 
     // created a method to search transactions through vendor name
     private static void searchByVendor(List<Transaction> ledger) {
+
+        // scanner to take user input for vendor name
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the vendor name to search by: ");
         String vendorName = scanner.nextLine();
+
+        // boolean tracks if vendor name was found
         boolean found = false;
         System.out.println("Transactions by vendor: " + vendorName);
-
+        // loops through each transaction to find match
         for (Transaction entry : ledger) {
             if (entry.getVendor().equalsIgnoreCase(vendorName)) {
-                System.out.println("Type: " + entry.getTime() + ", Amount: $" + entry.getAmount() + ", Description: " + entry.getDescription());
+                // if match is found it will print:
+                System.out.println(entry.getTime() + " - Amount: $" + entry.getAmount() + " - Description: " + entry.getDescription() + " - Vendor: " + entry.getVendor() + " - Date: " + entry.getDate());
                 found = true;
             }
         }
+        // if match not found it will print:
         if (!found) {
             System.out.println("No transactions found for vendor: " + vendorName);
         }
     }
 
+    // method to display transactions
+    private static void displayTransactions(List<Transaction> ledger) {
+        System.out.println("List of Transactions:");
+
+        if (ledger.isEmpty()) {
+            System.out.println("No transactions found.");
+        } else {
+            for (Transaction transaction : ledger) {
+                System.out.println("Date: " + transaction.getDate());
+                System.out.println("Time: " + transaction.getTime());
+                System.out.println("Description: " + transaction.getDescription());
+                System.out.println("Vendor: " + transaction.getVendor());
+                System.out.println("Amount: $" + transaction.getAmount());
+                System.out.println(); // Add a newline for separation
+            }
+        }
+    }
+
+
+    // method to save transactions to file
     private static void saveTransactions(List<Transaction> ledger) throws IOException {
         try {
             File file = new File("src/main/resources/transactions.csv");
 
             boolean fileExists = file.exists();
-
+            // if file does not exist it creates "newTransactionWriter" and adds header
             if (!fileExists) {
                 FileWriter newTransactionWriter = new FileWriter("src/main/resources/transactions.csv");
                 newTransactionWriter.write("Date|Time|Description|Vendor|Amount\n");
                 newTransactionWriter.close();
             }
-
-
+            // creating "appendTransactionWriter" in append mode to be able to add data
             FileWriter appendTransactionWriter = new FileWriter("src/main/resources/transactions.csv", true);
-            // Pipe delimited
+
+            // adds data to file
             for (Transaction transaction : ledger) {
                 appendTransactionWriter.write(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription() + "|" + transaction.getVendor() + "|" + transaction.getAmount() + "\n");
             }
