@@ -35,31 +35,34 @@ public class UserInterface {
                     dealership.getAllVehicles();
                     break;
                 case 2:
-                    dealership.getVehiclesByPrice();
+                    dealership.getVehiclesByPrice(2000, 5000);
                     break;
                 case 3:
-                    dealership.getVehiclesByMakeModel();
+                    dealership.getVehiclesByMakeModel("Mitsubishi", "Galant");
                     break;
                 case 4:
-                    dealership.getVehiclesByYear();
+                    dealership.getVehiclesByYear(2012, 2022);
                     break;
                 case 5:
-                    dealership.getVehiclesByColor();
+                    dealership.getVehiclesByColor("Red");
                     break;
                 case 6:
-                    dealership.getVehiclesByType();
+                    dealership.getVehiclesByType("Sedan");
                     break;
                 case 7:
                     dealership.addVehicle();
                     break;
-                case 8: dealership.removeVehicle();
+
+                case 8:
+                    dealership.removeVehicle();
+                    break;
                 default:
                     System.out.println("Invalid option. Please choose a valid option");
             }
             scanner.close();
 
-            }
-
         }
+
     }
+}
 }

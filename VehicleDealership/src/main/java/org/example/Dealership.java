@@ -121,7 +121,12 @@ public class Dealership {
         inventory.add(vehicle);
     }
 
-    public void removeVehicle() {
-        inventory.subtract(vehicle);
+    public void removeVehicle(int index) {
+        if (index >= 0 && index < inventory.size()) {
+            inventory.remove(index);
+        } else {
+            System.out.println("Invalid index. Please choose a valid index.");
+        }
     }
-}
+    }
+
