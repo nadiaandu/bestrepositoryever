@@ -6,6 +6,9 @@ import java.util.Scanner;
 
 public class UserInterface {
     public Dealership dealership;
+    public UserInterface(Dealership dealership) {
+        this.dealership = dealership;
+    }
 
     public void display() {
         boolean isRunning = true;
@@ -23,6 +26,7 @@ public class UserInterface {
             System.out.println("6. Search for vehicles by vehicle type");
             System.out.println("7. Add a vehicle");
             System.out.println("9. Remove a vehicle");
+            System.out.println("0 Quit application");
 
             int userInput = scanner.nextInt();
 
@@ -35,19 +39,19 @@ public class UserInterface {
                     dealership.getAllVehicles();
                     break;
                 case 2:
-                    dealership.getVehiclesByPrice(2000, 5000);
+                    dealership.getVehiclesByPrice();
                     break;
                 case 3:
-                    dealership.getVehiclesByMakeModel("Mitsubishi", "Galant");
+                    dealership.getVehiclesByMakeModel();
                     break;
                 case 4:
-                    dealership.getVehiclesByYear(2012, 2022);
+                    dealership.getVehiclesByYear();
                     break;
                 case 5:
-                    dealership.getVehiclesByColor("Red");
+                    dealership.getVehiclesByColor();
                     break;
                 case 6:
-                    dealership.getVehiclesByType("Sedan");
+                    dealership.getVehiclesByType();
                     break;
                 case 7:
                     dealership.addVehicle();
@@ -57,12 +61,16 @@ public class UserInterface {
                     dealership.removeVehicle();
                     break;
                 default:
-                    System.out.println("Invalid option. Please choose a valid option");
+                    System.out.println();
             }
             scanner.close();
 
         }
+        // methods for user
+
+
+
+
 
     }
-}
 }

@@ -3,7 +3,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 public class DealershipFileManager {
-        public Dealership getDealership() {
+        public static Dealership getDealership() {
 
             Dealership dealership = null;
             try {

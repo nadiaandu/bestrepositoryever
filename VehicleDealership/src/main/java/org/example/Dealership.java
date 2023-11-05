@@ -15,6 +15,10 @@ public class Dealership {
         this.name = name;
         this.address = address;
         this.phone = phone;
+        this.inventory = new ArrayList<>();
+    }
+    public Dealership(){
+        this.inventory = new ArrayList<>();
     }
 
     public String getName() {
@@ -121,11 +125,8 @@ public class Dealership {
         inventory.add(vehicle);
     }
 
-    public void removeVehicle(int index) {
-        if (index >= 0 && index < inventory.size()) {
-            inventory.remove(index);
-        } else {
-            System.out.println("Invalid index. Please choose a valid index.");
+    public void removeVehicle(Vehicle vehicle) {
+   inventory.remove(vehicle);
         }
     }
     }
