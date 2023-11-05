@@ -18,11 +18,11 @@ public class UserInterface {
             System.out.println("1. View all Vehicles");
             System.out.println("2. Search for all vehicles by price");
             System.out.println("3. Search for vehicles by make/model");
-            System.out.println("5. Search for vehicles by year");
-            System.out.println("6. Search for vehicles by color");
-            System.out.println("7. Search for vehicles by vehicle type");
-            System.out.println("8. Add a vehicle");
-            System.out.println("9. Remove");
+            System.out.println("4. Search for vehicles by year");
+            System.out.println("5. Search for vehicles by color");
+            System.out.println("6. Search for vehicles by vehicle type");
+            System.out.println("7. Add a vehicle");
+            System.out.println("9. Remove a vehicle");
 
             int userInput = scanner.nextInt();
 
@@ -38,19 +38,21 @@ public class UserInterface {
                     dealership.getVehiclesByPrice();
                     break;
                 case 3:
+                    dealership.getVehiclesByMakeModel();
                     break;
                 case 4:
+                    dealership.getVehiclesByYear();
                     break;
                 case 5:
+                    dealership.getVehiclesByColor();
                     break;
                 case 6:
+                    dealership.getVehiclesByType();
                     break;
                 case 7:
+                    dealership.addVehicle();
                     break;
-                case 8:
-                    break;
-                case 9:
-                    break;
+                case 8: dealership.removeVehicle();
                 default:
                     System.out.println("Invalid option. Please choose a valid option");
             }
