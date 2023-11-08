@@ -32,7 +32,9 @@ public class UserInterface {
             int userInput = scanner.nextInt();
 
             switch (userInput) {
-
+                //You made all those private helper methods, so here is where you would actually use them
+                //You need to follow the uml diagram. It's not a suggestion, it's telling you what
+                //methods you will need. Diverging from the diagram actually makes things more confusing.
                 case 0:
                     System.exit(0);
                     break;
@@ -75,7 +77,14 @@ public class UserInterface {
         displayFilteredVehicles(allVehicles);
     }
 
+
     private void displayFilteredVehicles(List<Vehicle> filteredVehicles) {
+        //The helper method for this might look like this
+        //Give the name displayFilteredVehicles, it must print something to the screen
+        for(Vehicle vehicle : filteredVehicles){
+            //You'd do the other properties as well, this is just a quick example
+            System.out.printf("Vehicle type: %s", vehicle.getVehicleType());
+        }
     }
 
     private void addVehicle() {
