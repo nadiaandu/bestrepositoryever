@@ -3,6 +3,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 public class DealershipFileManager {
+    //Nice! This should be a static method. Also, you can do a private constructo to complete the combo.
+    //for example:
+    /*
+            private DealershipFileManager() {}
+     */
         public static Dealership getDealership() {
 
             Dealership dealership = null;
@@ -36,6 +41,7 @@ public class DealershipFileManager {
             return dealership;
         }
 
+        //You'll need to finish this out for later.
         public void saveDealership(Dealership dealership) {
 
         }
