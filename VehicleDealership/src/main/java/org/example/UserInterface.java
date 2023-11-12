@@ -17,7 +17,7 @@ public class UserInterface {
         Scanner scanner = new Scanner(System.in);
 
         while (isRunning) {
-            System.out.printf("Welcome to %s, the best place to buy a car", this.dealership.getName());
+            System.out.printf("Welcome to goodcar, the best place to buy a car", this.dealership.getName());
             System.out.println("Select from the following options:");
             System.out.println("0. Exit Program");
             System.out.println("1. View all Vehicles");
@@ -28,6 +28,7 @@ public class UserInterface {
             System.out.println("6. Search for vehicles by vehicle type");
             System.out.println("7. Add a vehicle");
             System.out.println("9. Remove a vehicle");
+            System.out.println("10. Sell/Lease a vehicle");
 
             int userInput = scanner.nextInt();
 
@@ -37,29 +38,28 @@ public class UserInterface {
                     System.exit(0);
                     break;
                 case 1:
-
+                    listAllVehicles();
                     break;
                 case 2:
-
+                    searchByPrice();
                     break;
                 case 3:
-
+                    searchByMakeModel();
                     break;
                 case 4:
-
+                    searchByYear();
                     break;
                 case 5:
-
+                    searchByColor();
                     break;
                 case 6:
-
+                    searchByType();
                     break;
                 case 7:
-
+                    addVehicle();
                     break;
-
                 case 8:
-
+                    removeVehicle();
                     break;
                 default:
                     System.out.println("Please select from options given!");
@@ -102,6 +102,29 @@ public class UserInterface {
         Vehicle newVehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, price);
         dealership.addVehicle(newVehicle);
         System.out.println("Successfully added!");
+    }
+
+    private void removeVehicle() {
+        System.out.println("Please enter the VIN of the vehicle you want to remove:");
+        Scanner scanner = new Scanner(System.in);
+        int vinToRemove = scanner.nextInt();
+
+        List<Vehicle> inventory = dealership.getAllVehicles();
+        boolean removed = false;
+
+        for (Vehicle vehicle : inventory) {
+            if (vehicle.getVin() == vinToRemove) {
+                dealership.removeVehicle(vehicle);
+                removed = true;
+                break;
+            }
+        }
+
+        if (removed) {
+            System.out.println("Vehicle with VIN " + vinToRemove + " has been removed from the inventory.\n");
+        } else {
+            System.out.println("No vehicle found with VIN " + vinToRemove + " in the inventory.\n");
+        }
     }
 
     private void searchByPrice() {
@@ -154,6 +177,14 @@ public class UserInterface {
 
         List<Vehicle> filteredVehicles = dealership.getVehiclesByType(type);
         displayFilteredVehicles(filteredVehicles);
+    }
+
+    private void sellOrLeaseVehicle() {
+        Scanner userInput = new Scanner(System.in);
+        System.out.println("Are you selling or leasing?");
+       // if () else
+
+
     }
 
 

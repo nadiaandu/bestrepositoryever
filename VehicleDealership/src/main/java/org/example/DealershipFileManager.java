@@ -40,7 +40,6 @@ public class DealershipFileManager {
 
         }
 
-    //make a file input stream that points to the file that holds my vehicles
 
     }
 
