@@ -1,2 +1,26 @@
-package org.example;public class Animal {
+package org.example;
+
+public class Animal {
+public String name;
+
+public Animal(String name){
+    this.name = name;
+
+}
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void makeSound(){
+    System.out.println("AHHHHHHH");
+}
+
+    public void eat(){
+        System.out.println("nomnomnomnom");
+    }
+
 }

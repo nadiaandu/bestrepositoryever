@@ -1,2 +1,9 @@
-package org.example;public class Cat {
+package org.example;
+
+public class Cat extends Animal {
+
+    public void meow(){
+        System.out.println("Meow!!");
+    }
+
 }

@@ -72,6 +72,10 @@ public class House extends Asset {
                 throw new IllegalArgumentException("Condition must be 1-4");
             }
 
+            }
         }
+    @Override
+    public double getTaxableValue(){
+        return this.getValue()*.75;
     }
 }

@@ -44,7 +44,7 @@ public class Vehicle extends Asset {
 
         //someone screwed up
         if(this.year < 0){
-            throw new IllegalArgumentException("For real dawg? A car can't be less than 0 years old.");
+            throw new IllegalArgumentException("Car can't be less than 0 years old");
         }
         else if(this.year >= 0 && this.year <= 3){
             finalValue *= 1 - (this.year * .03);
@@ -67,5 +67,10 @@ public class Vehicle extends Asset {
         }
 
         return finalValue;
+    }
+
+    @Override
+    public double getTaxableValue() {
+        return 0;
     }
 }

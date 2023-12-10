@@ -1,2 +1,5 @@
-package org.example;public enum ExteriorType {
+package org.example;
+
+public enum ExteriorType {
+    FUR;
 }
